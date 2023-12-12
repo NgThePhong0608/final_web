@@ -3,15 +3,12 @@ import { defineStore } from "pinia";
 
 export const pinia = createPinia();
 
-export const useCounterStore = defineStore({
-    id: "counter",
-    state: () => ({ count: 0 }),
-    actions: {
-        increment() {
-            this.count++;
-        },
-        decrement() {
-            this.count--;
-        },
-    },
+export const useMyStore = defineStore("myStore", {
+    state: () => ({
+        allFoods: [],
+        user: undefined,
+        admin: undefined,
+    }),
+    actions: {},
+    mutations: {},
 });
