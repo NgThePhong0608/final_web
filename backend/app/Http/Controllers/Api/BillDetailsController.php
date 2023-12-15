@@ -17,7 +17,7 @@ class BillDetailsController extends Controller
 
     public function getBillDetails($id)
     {
-        $billDetails = BillDetails::where('bill_id', $id)->get();
+        $billDetails = BillDetails::where('id', $id)->get();
         return response()->json($billDetails);
     }
 }

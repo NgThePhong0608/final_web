@@ -10,7 +10,7 @@ class BillStatusController extends Controller
 {
     public function getNewestId()
     {
-        $latestBill = BillStatus::orderBy('bill_id', 'desc')->first();
+        $latestBill = BillStatus::orderBy('id', 'desc')->first();
         return response()->json($latestBill);
     }
 
@@ -29,7 +29,7 @@ class BillStatusController extends Controller
 
     public function getBillsByBill($id)
     {
-        $billsByBill = BillStatus::where('bill_id', $id)->get();
+        $billsByBill = BillStatus::where('id', $id)->get();
         return response()->json($billsByBill);
     }
 
@@ -41,20 +41,20 @@ class BillStatusController extends Controller
 
     public function updateStatus($id)
     {
-        $updatedStatus = BillStatus::where('bill_id', $id)->increment('bill_status');
+        $updatedStatus = BillStatus::where('id', $id)->increment('bill_status');
         return response()->json($updatedStatus);
     }
 
     public function updatePaid($id)
     {
-        $updatedPaid = BillStatus::where('bill_id', $id)->update(['bill_paid' => true]);
+        $updatedPaid = BillStatus::where('id', $id)->update(['bill_paid' => true]);
         return response()->json($updatedPaid);
     }
 
     public function cancelStatus($id)
     {
-        $canceledStatus = BillStatus::where('bill_id', $id)->update(['bill_status' => 0]);
-        $canceledPaid = BillStatus::where('bill_id', $id)->update(['bill_paid' => false]);
+        $canceledStatus = BillStatus::where('id', $id)->update(['bill_status' => 0]);
+        $canceledPaid = BillStatus::where('id', $id)->update(['bill_paid' => false]);
 
         return response()->json(['status' => $canceledStatus, 'paid' => $canceledPaid]);
     }
