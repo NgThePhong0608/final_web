@@ -9,7 +9,7 @@ class Food extends Model
 {
     use HasFactory;
 
-    protected $table = 'food';
+    protected $table = 'foods';
 
     /**
      * The attributes that are mass assignable.
@@ -17,6 +17,7 @@ class Food extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'food_name',
         'food_star',
         'food_vote',

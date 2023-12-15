@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\FoodResource;
 use App\Models\Food;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FoodController extends Controller
 {
@@ -13,11 +15,19 @@ class FoodController extends Controller
      */
     public function index()
     {
-        $foods = Food::paginate(5);
+        // $foods = Food::paginate(5);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'All foods in restaurant',
+        //     'data' => FoodResource::collection($foods),
+        // ], 200);
+        $foods = DB::table('foods')->get();
+
+        // Return a JSON response with success status, a message, and the data
         return response()->json([
             'success' => true,
-            'message' => 'Daftar data makanan',
-            'data' => $foods
+            'message' => 'All foods in restaurant',
+            'data' => $foods,
         ], 200);
     }
 
@@ -26,7 +36,8 @@ class FoodController extends Controller
      */
     public function create()
     {
-        //
+        // create new food
+        
     }
 
     /**
@@ -42,15 +53,16 @@ class FoodController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
+        $food = Food::find($id);
+        if (!$food) {
+            return response()->json(['error' => 'Food not found'], 404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return response()->json([
+            'success' => true,
+            'message' => 'Food details',
+            'data' => new FoodResource($food),
+        ], 200);
     }
 
     /**
@@ -58,7 +70,17 @@ class FoodController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // TODO: Implement update() method.
+        $food = Food::find($id);
+        if (!$food) {
+            return response()->json(['error' => 'Food not found'], 404);
+        }
+        $food->update($request->all());
+        return response()->json([
+            'success' => true,
+            'message' => 'Food update successfully',
+            'data' => new FoodResource($food),
+        ], 200);
     }
 
     /**
@@ -66,6 +88,14 @@ class FoodController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $food = Food::find($id);
+        if (!$food) {
+            return response()->json(['error' => 'Food not found'], 404);
+        }
+        $food->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Food deleted successfully',
+        ], 200);
     }
 }
