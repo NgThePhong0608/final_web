@@ -18,4 +18,14 @@ class BookTableController extends Controller
             'data' => $bookTable
         ]);
     }
+
+    public function getAllBookings()
+    {
+        $bookTables = BookTable::all();
+        return response()->json([
+            'status' => true,
+            'message' => 'Get all bookings successfully!',
+            'data' => $bookTables
+        ]);
+    }
 }

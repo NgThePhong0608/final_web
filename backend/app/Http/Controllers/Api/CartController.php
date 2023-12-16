@@ -15,7 +15,7 @@ class CartController extends Controller
         return response()->json($items);
     }
 
-    public function getAItem($user, $food)
+    public function getAnItem($user, $food)
     {
         $item = Cart::where('user_id', $user)->where('food_id', $food)->first();
         return response()->json($item);
