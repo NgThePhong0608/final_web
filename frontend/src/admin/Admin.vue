@@ -25,16 +25,43 @@
 
 
 <script>
+import { mapMutations } from "vuex";
 export default {
     name: 'Admin',
 
     data() {
         return {
             adminObj: { pass: "" },
-            key: "123456789",
+            key: "20002150",
             errors: [],
         }
     },
+
+    methods: {
+        ...mapMutations(["setAdmin"]),
+
+        handleSubmit(e) {
+            this.errors = [];
+            if (!this.adminObj.pass) {
+                this.errors.push('Password is required');
+            }
+
+            if (!this.errors.length == 0) {
+                e.preventDefault();
+            }
+            else {
+                e.preventDefault();
+                if (this.key === this.adminObj.pass) {
+                    this.setAdmin("admin");
+                    this.$router.push("/admin/dashboard");
+                }
+                else {
+                    this.errors.push("Admin password wrong!")
+                }
+
+            }
+        }
+    }
 }
 </script>
 

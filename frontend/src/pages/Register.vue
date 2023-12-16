@@ -74,17 +74,26 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     name: "Register",
+
     data() {
         return {
             registerObj: { name: "", email: "", pass: "", confirm: "", phone: "", birth: "", gender: "" },
             errorObj: { nameErr: [], emailErr: [], passErr: [], confirmErr: [], phoneErr: [], birthErr: [], genderErr: [] },
             matchUser: undefined,
+
         }
     },
 
     methods: {
+        async getMatchUser(email) {
+            let data = await axios.get('/users/' + email);
+            this.matchUser = data.data;
+            console.log(this.matchUser);
+        },
+
         scrollToTop() {
             window.scrollTo(0, 0);
         },
@@ -210,6 +219,27 @@ export default {
                 this.errorObj.genderErr.push("Please select a gender");
             }
         },
+
+        async handleSubmit(e) {
+            this.checkForm();
+
+            if (!this.checkEmptyErr()) {
+                e.preventDefault();
+            } else {
+                e.preventDefault();
+                let data = {
+                    user_name: this.registerObj.name,
+                    user_email: this.registerObj.email,
+                    user_phone: this.registerObj.phone,
+                    user_password: this.registerObj.pass,
+                    user_birth: this.registerObj.birth,
+                    user_gender: this.registerObj.gender
+                }
+                await axios.post("/register", data);
+                this.$router.push("/login");
+
+            }
+        }
     },
 
 };

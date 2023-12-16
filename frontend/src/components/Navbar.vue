@@ -1,5 +1,5 @@
 <template>
-    <!-- <div class="header">
+    <div class="header">
         <router-link @click="scrollToTop()" to="/" class="logo"><img src="../assets/images/taco-logo.png" alt="" />HusFoodie
         </router-link>
 
@@ -41,49 +41,17 @@
             </div>
 
         </div>
-    </div> -->
-    <div>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-                <div class="collapse navbar-collapse" id="navbarScroll">
-                    <router-link @click="scrollToTop()" to="/" class="logo">
-                        <img src="../assets/images/taco-logo.png" alt="" />
-
-                    </router-link>
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Link
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
     </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
 export default {
     name: 'NavBar',
+
+    computed: {
+        ...mapState(["user"])
+    },
 
     mounted() {
         window.addEventListener('scroll', this.handleScroll);
@@ -93,6 +61,7 @@ export default {
     },
 
     methods: {
+        ...mapMutations(["setUser"]),
 
         scrollToTop() {
             window.scrollTo(0, 0);

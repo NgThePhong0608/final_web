@@ -3,7 +3,8 @@
         <div class="news-letter">
             <h3>Receive event notifications</h3>
             <form onsubmit="event.preventDefault();">
-                <input type="email" name="useremailreceiveinfo" placeholder="enter your email" id="useremailreceiveinfo">
+                <input type="email" name="useremailreceiveinfo" placeholder="enter your email"
+                    id="useremailreceiveinfo">
                 <input type="submit" value="subscribe">
             </form>
         </div>
@@ -71,8 +72,13 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
     name: 'FooterComponent',
+
+    computed: {
+        ...mapState(['user'])
+    },
 
     methods: {
         scrollToTop() {
