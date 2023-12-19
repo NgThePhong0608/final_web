@@ -215,11 +215,11 @@ export default {
                 food_id: parseInt(this.cartItem[i]),
                 item_qty: this.itemQuantity[i]
             };
-            await axios.put("/cartItem/", data)
+            await axios.put("/cart/", data)
         },
 
         async cancelBtn() {
-            await axios.delete("/cartItem/" + this.user.user_id);
+            await axios.delete("/cart/" + this.user.user_id);
 
             this.cartItem = [];
             this.itemQuantity = [];
@@ -230,7 +230,7 @@ export default {
         },
 
         async removeBtn(index) {
-            await axios.delete("/cartItem/" + this.user.user_id + "/" + this.cartItem[index]);
+            await axios.delete("/cart/" + this.user.user_id + "/" + this.cartItem[index]);
 
             this.cartItem.splice(index, 1);
             this.itemQuantity.splice(index, 1);
@@ -238,7 +238,7 @@ export default {
 
         async getAllCartItem() {
             if (this.user) {
-                let existItem = await axios.get('/cartItem/' + this.user.user_id);
+                let existItem = await axios.get('/cart/' + this.user.user_id);
                 existItem.data.forEach(element => {
                     this.cartItem.push(element.food_id);
                     this.itemQuantity.push(element.item_qty);

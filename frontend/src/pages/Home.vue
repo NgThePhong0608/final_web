@@ -87,8 +87,8 @@
             <div class="content">
                 <span>why choose us?</span>
                 <h3 class="title">what's make our food delicious!</h3>
-                <p>Food to customers is always guaranteed of the best quality. Our dishes are made by chef Quang (a 5
-                    Michelin stars chef), promising to bring explosive, delicate, impressive flavors. Our delivery
+                <p>Food to customers is always guaranteed of the best quality. Our dishes are made by 4 chefs, promising to
+                    bring explosive, delicate, impressive flavors. Our delivery
                     service is very professional, customers can enjoy the same quality at the restaurant</p>
                 <router-link @click="scrollToTop()" to="/about" class="btn">read more</router-link>
 

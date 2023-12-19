@@ -149,7 +149,7 @@ export default {
 
         async getAllCartItem() {
             if (this.user) {
-                let existItem = await axios.get('/cartItem/' + this.user.user_id);
+                let existItem = await axios.get('/cart/' + this.user.user_id);
                 existItem.data.forEach(element => {
                     this.cartItem.push(element.food_id);
                     this.itemQuantity.push(element.item_qty);
@@ -327,7 +327,7 @@ export default {
                 }
 
                 axios.post("/billstatus", billStatus);
-                axios.delete("/cartItem/" + this.user.user_id);
+                axios.delete("/cart/" + this.user.user_id);
 
                 this.cartItem = [];
                 this.itemQuantity = [];

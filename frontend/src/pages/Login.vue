@@ -59,7 +59,6 @@ export default {
                     user_email: email,
                     user_password: password
                 });
-                console.log(response.data);
                 return response.data.data;  // Access the 'data' property
             } catch (error) {
                 console.error("Error fetching user:", error);
