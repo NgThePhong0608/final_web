@@ -1,26 +1,48 @@
-<script setup>
-import Navbar from '../src/components/Navbar.vue'
-import Footer from '../src/components/Footer.vue'
-</script>
-
 <template>
-  <div id="app">
-    <div v-if="admin">
-      <router-view></router-view>
-    </div>
-    <div v-else>
-      <Navbar />
-
-      <div class="auth-wrapper">
-        <div class="auth-inner">
-          <router-view></router-view>
+    <div id="app">
+        <div v-if="admin">
+            <router-view></router-view>
         </div>
-      </div>
-      <Footer />
+        <div v-else>
+            <NavBar />
+
+            <div class="auth-wrapper">
+                <div class="auth-inner">
+                    <router-view></router-view>
+                </div>
+            </div>
+            <FooterComponent />
+        </div>
     </div>
-  </div>
 </template>
 
-<style scoped>
+<script>
+import NavBar from './components/NavBar.vue';
+import FooterComponent from './components/FooterComponent.vue';
+import { mapActions } from 'vuex';
+import { mapState } from 'vuex';
+export default {
+    name: 'App',
+    components: {
+        NavBar,
+        FooterComponent
+    },
+
+    created() {
+        this.getFoodsData()
+    },
+
+    computed: {
+        ...mapState(["admin"])
+    },
+
+    methods: {
+        ...mapActions(["getFoodsData"])
+    }
+}
+</script>
+
+<style>
 @import "./assets/css/global_style.css";
 </style>
+

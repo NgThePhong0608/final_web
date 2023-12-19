@@ -34,26 +34,29 @@ Route::resource('/foods', FoodController::class);
 
 // cart
 Route::get('/cart/{id}', [CartController::class, 'getAllItems']);
-Route::get('/cart/{user}/{food}', [CartController::class, 'getAItem']);
+Route::get('/cart/{user}/{food}', [CartController::class, 'getAnItem']);
 Route::post('/cart', [CartController::class, 'insertToCart']);
 Route::put('/cart', [CartController::class, 'updateCartItemQty']);
 Route::delete('/cart/{user}/{food}', [CartController::class, 'deleteItemInCart']);
 Route::delete('/cart/{id}', [CartController::class, 'deleteAllItemsByUser']);
 
 // booking
-Route::resource('/booking', BookTableController::class);
+Route::post('/booking', [BookTableController::class, 'insertBooking']);
+Route::get('/booking', [BookTableController::class, 'getAllBookings']);
 
 // bill status
-Route::get('/bill/status/newest', [BillStatusController::class, 'getNewestId']);
-Route::post('/bill/status', [BillStatusController::class, 'insertBillStatus']);
-Route::get('/bill/status/user/{id}', [BillStatusController::class, 'getBillsByUser']);
-Route::get('/bill/status/{id}', [BillStatusController::class, 'getBillsByBill']);
-Route::get('/bill/status/all', [BillStatusController::class, 'getAll']);
-Route::put('/bill/status/{id}/update', [BillStatusController::class, 'updateStatus']);
-Route::put('/bill/status/{id}/update-paid', [BillStatusController::class, 'updatePaid']);
-Route::put('/bill/status/{id}/cancel', [BillStatusController::class, 'cancelStatus']);
+Route::group(['prefix' => 'billstatus'], function () {
+    Route::get('/new', [BillStatusController::class, 'getNewestId']);
+    Route::post('/', [BillStatusController::class, 'insertBillStatus']);
+    Route::get('/user/{id}', [BillStatusController::class, 'getBillsByUser']);
+    Route::get('/bill/{id}', [BillStatusController::class, 'getBillsByBill']);
+    Route::get('/', [BillStatusController::class, 'getAll']);
+    Route::put('/{id}', [BillStatusController::class, 'updateStatus']);
+    Route::put('/paid/{id}', [BillStatusController::class, 'updatePaid']);
+    Route::put('/cancel/{id}', [BillStatusController::class, 'cancelStatus']);
+});
 
 
 // bill details
-Route::post('/bill/details', [BillDetailsController::class, 'insertBillDetails']);
-Route::get('/bill/details/{id}', [BillDetailsController::class, 'getBillDetails']);
+Route::post('/billdetails', [BillDetailsController::class, 'insertBillDetails']);
+Route::get('/billdetails/{id}', [BillDetailsController::class, 'getBillDetails']);

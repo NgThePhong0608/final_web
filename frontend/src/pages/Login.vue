@@ -21,9 +21,9 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="submit" value="Login" class="btn">
-                    <p>don't have an account?
-                        <router-link @click="scrollToTop()" to="/register">create one</router-link>
+                    <input type="submit" value="login now" class="btn">
+                    <p>don't have an account? <router-link @click="scrollToTop()" to="/register">create one
+                        </router-link>
                     </p>
                 </div>
             </form>
@@ -33,6 +33,8 @@
 
 
 <script>
+import axios from "axios";
+import { mapMutations } from "vuex";
 export default {
     name: 'Login',
 
@@ -43,6 +45,68 @@ export default {
             errors: [],
         }
     },
+
+    methods: {
+        ...mapMutations(["setUser"]),
+
+        scrollToTop() {
+            window.scrollTo(0, 0);
+        },
+
+        async login(email, password) {
+            try {
+                let response = await axios.post('/login', {
+                    user_email: email,
+                    user_password: password
+                });
+                return response.data.data;  // Access the 'data' property
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        },
+
+        async handleSubmit(e) {
+            this.errors = [];
+
+            if (!this.loginObj.email) {
+                this.errors.push("Entering a email is required");
+            }
+            else {
+                if (!/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/.test(this.loginObj.email)) {
+                    this.errors.push('Email must be valid');
+                }
+            }
+
+
+            if (!this.loginObj.pass) {
+                this.errors.push('Password is required');
+            }
+
+            if (!this.errors.length == 0) {
+                e.preventDefault();
+            }
+            else {
+                e.preventDefault();
+                this.matchUser = await this.login(this.loginObj.email, this.loginObj.pass);
+                // console.log(this.matchUser);
+                if (!this.matchUser) {
+                    this.errors.push("Incorrect email or password!")
+                }
+                else {
+                    if (this.matchUser) {
+                        this.matchUser.user_password = "";
+                        this.setUser(this.matchUser);
+                        this.$router.push("/");
+                    }
+                    else {
+                        this.errors.push("Incorrect email or password!")
+                    }
+                }
+            }
+        }
+
+    }
+
 }
 </script>
 
@@ -62,7 +126,7 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 40rem;
-    /* width: 100%; */
+    width: 100%;
     box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.05);
     border: 0.1rem solid rgba(0, 0, 0, 0.2);
     padding: 2rem;
@@ -131,9 +195,5 @@ export default {
 .login-container .login-form-container form .error-box ul li {
     padding-left: 10px;
     color: rgb(182, 0, 0);
-}
-
-.btn {
-    background-color: green;
 }
 </style>
